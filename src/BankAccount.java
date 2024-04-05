@@ -1,3 +1,4 @@
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,12 +19,15 @@ public class BankAccount {
     this.accountNumber = UUID.randomUUID().toString();
     this.accountBalance = 0;
     this.name = name;
+    this.openDate = getCurrentDateTime();
+    System.out.println("Account created successfully on " + this.openDate + "\n Account Number: " + this.accountNumber + "\n Account Balance: " + this.accountBalance + "\n Account Holder name: " + this.name + "\n");
   }
 
-  public BankAccount(String name, Float initialDeposit) {
+  public BankAccount(String name, float initialDeposit) {
     this.name = name;
     this.accountNumber = UUID.randomUUID().toString();
     this.accountBalance = initialDeposit;
+    this.openDate = getCurrentDateTime();
   }
 
   public void deposit(float amount) {
@@ -43,6 +47,15 @@ public class BankAccount {
     }
     this.accountBalance -= amount;
     this.transactionHistory.add("Withdraw $" + amount + "at date time: " + getCurrentDateTime());
+  }
+
+  public void closeAccount() {
+    if (isAccountClosed) {
+      throw new IllegalArgumentException("Account is already closed");
+    }
+    this.isAccountClosed = true;
+    this.closeDate = getCurrentDateTime();
+    System.out.println("Account closed successfully on " + this.closeDate + "\n Account Number: " + this.accountNumber + "\n Account Balance: " + this.accountBalance + "\n Account Holder name: " + this.name + "\n");
   }
 
   private String getCurrentDateTime() {
